@@ -121,4 +121,16 @@ Stat 工具則適合定時採樣及分析效能趨勢，例如 vmstat 可快速�
 使用 ip r 確認預設閘道為 192.168.146.2，透過 eth0 傳送外部網路封包。
 使用 ip n 查詢鄰居表，確認閘道 192.168.146.2 對應的 MAC Address 為 00:50:56:fc:cd:2d，狀態為 STALE。這代表曾成功建立鄰居對應，但近期尚未重新確認可達性，並非網路故障。
 結合先前成功的 ping 測試，判斷本次觀察沒有發現明顯的網卡、IP、路由或 ARP 異常。
+
 <img width="929" height="401" alt="image" src="https://github.com/user-attachments/assets/77b21244-e221-49e6-8b95-9cd65e887af7" />
+
+## 7-3. ss（取代舊 netstat）
+
+|選項|	意義|
+|---|---|
+|-t	|顯示 TCP Socket|
+|-u|	顯示 UDP Socket|
+|-n	|使用數字顯示 IP 和 Port，不進行名稱解析|
+|-l	|只看監聽中的 Socket|
+|-p	|顯示使用 Socket 的行程資訊|
+|-a	|顯示所有 Socket，包括監聽與非監聽|
