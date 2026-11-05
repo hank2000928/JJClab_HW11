@@ -82,3 +82,11 @@ Stat 工具則適合定時採樣及分析效能趨勢，例如 vmstat 可快速�
 
 -----------------------------------------------
 # 練習 7. 網路排查（一）：連通、介面、監聽、DNS
+
+## 7-1. ping / traceroute
+
+### 記錄各段 ping 是否成功、RTT 大約多少  
+確認本機的預設閘道為 192.168.146.2，透過 eth0 介面連線。RTT 最小值為 0.143 ms，平均值為 0.761 ms，最大值為 2.378 ms。
+因此，本次測試確認 VMware Guest 與預設閘道之間的 ICMP 通訊正常，沒有觀察到封包遺失。  
+<img width="869" height="250" alt="image" src="https://github.com/user-attachments/assets/bfb7105e-c3bc-4245-b846-0a3393038fcb" />
+
