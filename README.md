@@ -144,3 +144,25 @@ Stat 工具則適合定時採樣及分析效能趨勢，例如 vmstat 可快速�
 
 
 <img width="931" height="346" alt="image" src="https://github.com/user-attachments/assets/4cfbd956-596e-473c-9462-9ae599a1434c" />
+
+## 7-4. DNS：dig / nslookup / host
+
+|記錄|	意義|
+|---|---|
+|A	|網域名稱對應的 IPv4 位址|
+|AAAA|	網域名稱對應的 IPv6 位址|
+|MX	|郵件交換伺服器|
+|NS	|網域的權威名稱伺服器|
+|SOA|	DNS 區域的管理與權威資訊|
+
+|小題	|問題	|作答|
+|---|---|---|
+|7-4-1	|若解析失敗，可檢查 /etc/resolv.conf、SLES 的 netconfig 設定、DNS Server 可達性，以及使用 dig 或 getent hosts 進一步確認問題。|
+|7-4-2	|懷疑快取污染時，可以怎麼向指定 DNS 伺服器查詢比對？	|可能與快取、DNS 負載平衡、地理位置解析或設定異常有關，不能單憑 IP 不同就判定發生快取污染。|
+|7-4-3	|反向「名稱可以、HTTP 卻怪怪的」可能是哪一層問題？（提示：虛擬主機、憑證）	|應進一步檢查 TCP Port 80／443、網路路由、防火牆、Web Server 的虛擬主機設定，以及 HTTPS 的 TLS 憑證、SNI 和主機名稱是否相符。|
+
+<img width="904" height="471" alt="image" src="https://github.com/user-attachments/assets/9e27548a-028e-42e9-a20a-3f6e468efdb0" />
+<img width="916" height="395" alt="image" src="https://github.com/user-attachments/assets/f9dfad7d-ef1a-400f-98a1-209f1581ed12" />
+<img width="896" height="414" alt="image" src="https://github.com/user-attachments/assets/bed3f0cc-59d8-4308-b213-44dda47092c0" />
+<img width="895" height="452" alt="image" src="https://github.com/user-attachments/assets/2d2e70a9-93eb-4859-9c92-7cabf86e6d80" />
+
