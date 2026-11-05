@@ -18,34 +18,12 @@
 
 以虛擬機為例，先前已經確認 sle15-a 只有 2 個 vCPU，觀察 r 時，與 CPU 數量進行比較。
 
-|規則|	觀察|情況解析|
-|---|---|---|
-|r 長期明顯大於 CPU 數 → CPU 壓力|r||	
-||0～2|	以 2 vCPU 而言，不一定有 CPU 排隊壓力|
-||4	|可能存在多個工作爭用 CPU|
-||8	|若持續發生，可能存在較明顯的 CPU 壓力|
-|b 高且 wa 高 → 可能 I/O 等待	|||
-|si/so 持續明顯 → 記憶體不足、在用 swap|||
-|st 偏高（VM）→ Host 可能超賣 CPU	|||
 
-<table>
-  <tr>
-    <th>規則</th>
-    <th>觀察</th>
-    <th>情況解析</th>
-  </tr>
-  <tr>
-    <!-- 跨 2 列合併儲存格 (rowspan) -->
-    <td rowspan="4">r 長期明顯大於 CPU 數 → CPU 壓力</td>
-    <td>r = 0~2 </td>
-    <td>以 2 vCPU 而言，不一定有 CPU 排隊壓力</td>
-  </tr>
-  <tr>
-    <td>r= 4 </td>
-    <td>可能存在多個工作爭用 CPU</td>
-  </tr>
-  <tr>
-    <td>r= 8 </td>
-    <td>若持續發生，可能存在較明顯的 CPU 壓力</td>
-  </tr>
-</table>
+|規則	|你的觀察|判斷|
+|---|---|---|
+|r 長期明顯大於 CPU 數 → CPU 壓力	|最大為 1，VM 有 2 vCPU|未見 CPU 排隊壓力|
+|b 高且 wa 高 → 可能 I/O 等待	|b=0，後續 wa=0%|未見明顯 I/O 等待|
+|si/so 持續明顯 → 記憶體不足、在用 swap	|全部為 0|未見 Swap 活動|
+|st 偏高（VM）→ Host 可能超賣 CPU	|全部為 0%|未見 Hypervisor CPU Steal Time|
+
+<img width="795" height="344" alt="image" src="https://github.com/user-attachments/assets/399bed3b-d14d-4b64-b4a9-c1a695312e42" />
