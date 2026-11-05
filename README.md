@@ -33,14 +33,14 @@
 |小題	|指令範例	|用途	|
 |---|---|---|
 |6-2-1	|sar -u 1 5	CPU	|每秒採樣一次，共五次，觀察系統整體 CPU 使用率。|
-|6-2-7	|mpstat -P ALL 1 5	各核心；與 sar -P 互補	|查看整體 CPU 及各個邏輯 CPU 的使用率。|
+|6-2-7	|mpstat -P ALL 1 5	|各核心；與 sar -P 互補	查看整體 CPU 及各個邏輯 CPU 的使用率。|
 
 <img width="797" height="782" alt="image" src="https://github.com/user-attachments/assets/77533948-280b-423c-98e8-b8a1602885be" />
 
 |小題	|指令範例	|用途	|
 |---|---|---|
 |6-2-8	|iostat 2 3		|每隔 2 秒取得一次磁碟 I/O 統計，共三組資料。|
-|6-2-9	|iostat -x 2 3	await、util 等	|可以取得各磁碟的進階 I/O 統計，包括 r/s、w/s、r_await、w_await、aqu-sz 與 %util。|
+|6-2-9	|iostat -x 2 3	|await、util 等。	可以取得各磁碟的進階 I/O 統計，包括 r/s、w/s、r_await、w_await、aqu-sz 與 %util。|
 
 
 <img width="794" height="634" alt="image" src="https://github.com/user-attachments/assets/0fdc84f7-17b4-47bf-8c33-f9d70e3ed82b" />
@@ -49,7 +49,7 @@
 |小題	|指令範例	|用途	|
 |---|---|---|
 |6-2-10	|pidstat -u 1 5		|每秒採樣一次，連續五次記錄活躍行程的 CPU 使用情況。|
-|6-2-11	|pidstat -p <PID> -u 1 5	指定 PID	|每秒採樣一次 CPU 負載與排程等待，共五次。|
+|6-2-11	|pidstat -p <PID> -u 1 5|	指定 PID，每秒採樣一次 CPU 負載與排程等待，共五次。|
 
 <img width="915" height="630" alt="image" src="https://github.com/user-attachments/assets/dfc21a33-7b23-4dab-9b4f-82bb5d720136" />
 <img width="925" height="234" alt="image" src="https://github.com/user-attachments/assets/3d825004-632c-4c90-8aa9-ce52122b0adf" />
@@ -72,5 +72,13 @@
 
 |小題	|指令範例	|用途	|
 |---|---|---|
-|6-2-6	|sar -u -f /var/log/sa/sa10	讀當月第 DD 日歷史	|確認系統存在 sar 歷史資料目錄，但查詢 /var/log/sa/sa* 時沒有找到歷史統計檔案。目前 sysstat 已能進行即時採樣，但尚未找到可供讀取的歷史紀錄。可能原因是套件剛安裝、定期資料收集尚未啟用，或尚未執行第一次收集。|
-|6-2-12	|vnstat / vnstat -h / vnstat --top 10	長期流量 vs iftop 當下	|package vnstat is not installed|
+|6-2-6	|sar -u -f /var/log/sa/sa10		|確認系統存在 sar 歷史資料目錄，但查詢 /var/log/sa/sa* 時沒有找到歷史統計檔案。目前 sysstat 已能進行即時採樣，但尚未找到可供讀取的歷史紀錄。可能原因是套件剛安裝、定期資料收集尚未啟用，或尚未執行第一次收集。|
+|6-2-12	|vnstat / vnstat -h / vnstat --top 10|package vnstat is not installed|
+
+## 6-3. 監控策略
+Monitor 工具主要用於即時觀察系統狀態，例如透過 top 找出高 CPU 使用率行程，或使用 iotop 找出正在大量讀寫磁碟的行程。
+Stat 工具則適合定時採樣及分析效能趨勢，例如 vmstat 可快速觀察整體系統壓力，mpstat 可以比較不同 CPU 核心的使用率，iostat -x 可分析磁碟 I/O 延遲，而 pidstat 能針對指定 PID 持續採樣。
+當系統變慢時，可以先使用 vmstat 建立整體資源使用情況，再根據異常指標選擇適當工具。例如 r 持續偏高時使用 mpstat 與 pidstat；b、wa 偏高時使用 iostat -x 與 iotop；若需要確認異常是否曾在其他時段發生，則使用 sar 的歷史資料進行比較。
+
+-----------------------------------------------
+# 練習 7. 網路排查（一）：連通、介面、監聽、DNS
