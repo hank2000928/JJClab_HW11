@@ -157,7 +157,7 @@ Stat 工具則適合定時採樣及分析效能趨勢，例如 vmstat 可快速�
 
 |小題	|問題	|作答|
 |---|---|---|
-|7-4-1	|若解析失敗，可檢查 /etc/resolv.conf、SLES 的 netconfig 設定、DNS Server 可達性，以及使用 dig 或 getent hosts 進一步確認問題。|
+|7-4-1	|能 ping IP、不能解析名稱時，應檢查哪些檔案／服務？|若解析失敗，可檢查 /etc/resolv.conf、SLES 的 netconfig 設定、DNS Server 可達性，以及使用 dig 或 getent hosts 進一步確認問題。|
 |7-4-2	|懷疑快取污染時，可以怎麼向指定 DNS 伺服器查詢比對？	|可能與快取、DNS 負載平衡、地理位置解析或設定異常有關，不能單憑 IP 不同就判定發生快取污染。|
 |7-4-3	|反向「名稱可以、HTTP 卻怪怪的」可能是哪一層問題？（提示：虛擬主機、憑證）	|應進一步檢查 TCP Port 80／443、網路路由、防火牆、Web Server 的虛擬主機設定，以及 HTTPS 的 TLS 憑證、SNI 和主機名稱是否相符。|
 
