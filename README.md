@@ -134,3 +134,14 @@ Stat 工具則適合定時採樣及分析效能趨勢，例如 vmstat 可快速�
 |-l	|只看監聽中的 Socket|
 |-p	|顯示使用 Socket 的行程資訊|
 |-a	|顯示所有 Socket，包括監聽與非監聽|
+
+|小題|	任務|結果|
+|---|---|---|
+|7-3-1	|找出本機 SSH 的監聽位址、埠與行程（PID／程式名）|本機 SSH 服務由 sshd 提供，PID 為 2152，監聽 TCP Port 22。IPv4 監聽位址為 0.0.0.0:22，IPv6 監聽位址為 [::]:22，狀態皆為 LISTEN。|
+|7-3-2	|列出目前 LISTEN 的服務|查詢到 SSH 服務 sshd 監聽 TCP Port 22，master 監聽本機 Loopback 的 TCP Port 25，以及 wicked-dhcp4 使用 UDP Port 68|
+|7-3-3	|說明如何用 ss 診斷 Address already in use，並與 lsof -i 交叉驗證|SSH Port 22 的占用者為 sshd，PID 2152。
+確認占用者後，應判斷它是否為正常服務，再決定修改服務 Port、調整設定或處理舊行程，不應直接終止未知行程。|
+|7-3-4	|「本機 ss 顯示 LISTEN」是否等於「外網可連」？中間還差哪些層？|顯示 LISTEN，只能證明本機服務已建立監聽 Socket，不能保證其他主機一定能成功連線。若外部無法連線，還需要確認網路路由、VMware NAT 或 Bridge 設定、防火牆是否允許對應 Port，以及來源端是否有網路存取限制。因此應搭配從客戶端進行的 TCP 連通測試，才能確認實際的端到端連線能力。|
+
+
+<img width="931" height="346" alt="image" src="https://github.com/user-attachments/assets/4cfbd956-596e-473c-9462-9ae599a1434c" />
