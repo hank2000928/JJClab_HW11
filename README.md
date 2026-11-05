@@ -85,8 +85,40 @@ Stat 工具則適合定時採樣及分析效能趨勢，例如 vmstat 可快速�
 
 ## 7-1. ping / traceroute
 
-### 記錄各段 ping 是否成功、RTT 大約多少  
+### 7-1-1. 記錄各段 ping 是否成功、RTT 大約多少  
+
 確認本機的預設閘道為 192.168.146.2，透過 eth0 介面連線。RTT 最小值為 0.143 ms，平均值為 0.761 ms，最大值為 2.378 ms。
 因此，本次測試確認 VMware Guest 與預設閘道之間的 ICMP 通訊正常，沒有觀察到封包遺失。  
+
 <img width="869" height="250" alt="image" src="https://github.com/user-attachments/assets/bfb7105e-c3bc-4245-b846-0a3393038fcb" />
 
+### 7-1-2. 說明「能 ping IP、不能 ping 名稱」下一步查什麼
+
+當外部 IP 可以 ping 成功，但網域名稱無法解析時，應優先檢查 DNS。
+可以使用 cat /etc/resolv.conf 確認 DNS Server 設定，並使用 getent 或 dig 測試名稱解析。若 DNS Server 設定正確，則進一步檢查路由、防火牆與 DNS 服務是否正常。
+<img width="880" height="375" alt="image" src="https://github.com/user-attachments/assets/3b8a3ef2-8818-4236-9b10-c52535680b4e" />
+
+### 7-1-3. traceroute 某跳無回應，是否一定代表該跳故障？為什麼？
+
+使用 traceroute -n -m 15 -w 1 -q 1 example.com 追蹤網路路徑。
+本次第一跳成功收到 192.168.146.2 的回覆，RTT 為 0.199 ms，與本機預設閘道相符。
+第 2～15 跳均顯示 *，表示探測封包沒有在指定時間內收到預期回覆。
+可能原因包含路由器限制 ICMP、VMware NAT 或防火牆過濾，以及 UDP traceroute 探測受到限制。
+由於先前 ping 8.8.8.8 和 ping example.com 都成功，封包遺失率為 0%，因此不能直接將 traceroute 的星號判定為外部網路故障。可以進一步使用 traceroute -I 進行交叉驗證。
+
+<img width="930" height="396" alt="image" src="https://github.com/user-attachments/assets/713252cb-16ec-4243-a6db-9fbd85a47ff5" />
+
+## 7-2. ip：介面、路由、鄰居
+
+|檢查項目	|你會看什麼|本機結果摘要|
+|---|---|---|
+|介面是否| ip a 旗標|UP	eth0 有 UP、LOWER_UP	正常|
+|IP／遮罩	|CIDR 是否正確|192.168.146.129/24	設定正常|
+|預設閘道|	ip r 是否有 default|192.168.146.2	路由存在|
+|ARP／鄰居	|ip n MAC 對應|閘道 MAC 00:50:56:fc:cd:2d	已成功建立對應|
+
+使用 ip a 確認本機 VMware 虛擬網卡 eth0 的狀態為 UP、LOWER_UP，IPv4 位址為 192.168.146.129/24，MAC Address 為 00:0c:29:a4:24:be。
+使用 ip r 確認預設閘道為 192.168.146.2，透過 eth0 傳送外部網路封包。
+使用 ip n 查詢鄰居表，確認閘道 192.168.146.2 對應的 MAC Address 為 00:50:56:fc:cd:2d，狀態為 STALE。這代表曾成功建立鄰居對應，但近期尚未重新確認可達性，並非網路故障。
+結合先前成功的 ping 測試，判斷本次觀察沒有發現明顯的網卡、IP、路由或 ARP 異常。
+<img width="929" height="401" alt="image" src="https://github.com/user-attachments/assets/77b21244-e221-49e6-8b95-9cd65e887af7" />
