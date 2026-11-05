@@ -33,9 +33,7 @@
 |小題	|指令範例	|用途	|
 |---|---|---|
 |6-2-1	|sar -u 1 5	CPU	|每秒採樣一次，共五次，觀察系統整體 CPU 使用率。|
-|6-2-6	|sar -u -f /var/log/sa/sa10	讀當月第 DD 日歷史	|
 |6-2-7	|mpstat -P ALL 1 5	各核心；與 sar -P 互補	|查看整體 CPU 及各個邏輯 CPU 的使用率。|
-|6-2-12	|vnstat / vnstat -h / vnstat --top 10	長期流量 vs iftop 當下	|
 
 <img width="797" height="782" alt="image" src="https://github.com/user-attachments/assets/77533948-280b-423c-98e8-b8a1602885be" />
 
@@ -72,3 +70,7 @@
 <img width="893" height="199" alt="image" src="https://github.com/user-attachments/assets/f103f10d-b608-4eed-8402-146e53c1b05a" />
 <img width="898" height="490" alt="image" src="https://github.com/user-attachments/assets/5239ad85-3d8b-42d6-9063-33a7c7ab3aa2" />
 
+|小題	|指令範例	|用途	|
+|---|---|---|
+|6-2-6	|sar -u -f /var/log/sa/sa10	讀當月第 DD 日歷史	|確認系統存在 sar 歷史資料目錄，但查詢 /var/log/sa/sa* 時沒有找到歷史統計檔案。目前 sysstat 已能進行即時採樣，但尚未找到可供讀取的歷史紀錄。可能原因是套件剛安裝、定期資料收集尚未啟用，或尚未執行第一次收集。|
+|6-2-12	|vnstat / vnstat -h / vnstat --top 10	長期流量 vs iftop 當下	|package vnstat is not installed|
