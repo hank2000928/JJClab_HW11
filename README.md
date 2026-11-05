@@ -27,3 +27,25 @@
 |b 高且 wa 高 → 可能 I/O 等待	|||
 |si/so 持續明顯 → 記憶體不足、在用 swap|||
 |st 偏高（VM）→ Host 可能超賣 CPU	|||
+
+<table>
+  <tr>
+    <th>規則</th>
+    <th>觀察</th>
+    <th>情況解析</th>
+  </tr>
+  <tr>
+    <!-- 跨 2 列合併儲存格 (rowspan) -->
+    <td rowspan="4">r 長期明顯大於 CPU 數 → CPU 壓力</td>
+    <td>r = 0~2 </td>
+    <td>以 2 vCPU 而言，不一定有 CPU 排隊壓力</td>
+  </tr>
+  <tr>
+    <td>r= 4 </td>
+    <td>可能存在多個工作爭用 CPU</td>
+  </tr>
+  <tr>
+    <td>r= 8 </td>
+    <td>若持續發生，可能存在較明顯的 CPU 壓力</td>
+  </tr>
+</table>
